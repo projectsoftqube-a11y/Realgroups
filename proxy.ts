@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 /**
  * Returns 410 Gone for WordPress URLs that have no equivalent on the new site.
  *
+ * (Next 16 renamed the `middleware` file convention to `proxy`; this is the
+ * same handler under the new name.)
+ *
  * 410 rather than 404 on purpose: it tells Google the URL is permanently gone
  * and should be dropped from the index, which happens far faster than the
  * repeated re-crawling a 404 invites. These are all pages that should never
@@ -17,7 +20,7 @@ import { NextResponse } from "next/server";
  *
  * Note the matcher is `/team/:slug+`, not `/team` — /team is a real page.
  */
-export function middleware() {
+export function proxy() {
   return new NextResponse(
     "410 Gone — this page has been permanently removed.",
     { status: 410, headers: { "content-type": "text/plain; charset=utf-8" } },

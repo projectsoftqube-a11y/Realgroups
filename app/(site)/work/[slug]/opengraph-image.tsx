@@ -1,36 +1,27 @@
 import { ImageResponse } from "next/og";
 
 import { OgCard, OG_CONTENT_TYPE, OG_SIZE, publicImageDataUri } from "@/lib/og";
-import { findWork, works } from "@/lib/works";
+import { findWork } from "@/lib/works";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-
-export function generateStaticParams() {
-  return works.map((w) => ({ slug: w.slug }));
-}
+export const alt = "Real Group development in Rajkot";
 
 /**
- * `params` is awaited rather than read directly: Next moved route params to
- * promises, and awaiting a plain object is harmless either way.
+ * Per-project social card: the project's own cover render behind its name.
+ *
+ * Deliberately no `generateImageMetadata` — that hook exists to emit several
+ * images from one file, and each item it returns must carry an `id`. This route
+ * produces exactly one image per slug, so the hook is unnecessary; exporting it
+ * made the build fail collecting page data for the generated
+ * `[__metadata_id__]` route. `generateStaticParams` is likewise inherited from
+ * page.tsx and must not be redeclared here.
  */
-type Params = { params: Promise<{ slug: string }> | { slug: string } };
-
-export async function generateImageMetadata({ params }: Params) {
-  const { slug } = await params;
-  const work = findWork(slug);
-  return [
-    {
-      id: slug,
-      size,
-      contentType,
-      alt: work ? `${work.title} — ${work.type} development by Real Group` : "Real Group",
-    },
-  ];
-}
-
-/** Per-project card: the project's own cover render behind its name. */
-export default async function Image({ params }: Params) {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const work = findWork(slug);
 

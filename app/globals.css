@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette lifted from the WordPress theme (altitude-pro custom CSS) */
+  --color-brand-gold: #d7b56d;
+  --color-brand-ink: #000000;
+  --color-brand-panel: #111111;
+  --color-brand-panel-hover: #222222;
+
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+
+  /* Height of the fixed utility bar; the header stacks directly beneath it. */
+  --spacing-topbar: 55px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #000000;
+  /* The WordPress theme defaulted to 200, which reads far too thin for body
+     copy. Anything not explicitly weighted now inherits a readable 400. */
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The original site relies on a fixed transparent header sitting on the hero.
+   Anything anchored via id needs to clear both bars. */
+[id] {
+  scroll-margin-top: calc(var(--spacing-topbar) + 90px);
+}

@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Serve /public images as they are: Vercel image optimisation is a paid allowance on the Hobby plan
+    // and answers 402 once it is used up, which leaves every next/image blank.
+    unoptimized: true,
     // Sources are pre-resized to 2560px by scripts/optimize-images.mjs.
     qualities: [40, 75, 88, 90, 95],
     formats: ["image/avif", "image/webp"],
